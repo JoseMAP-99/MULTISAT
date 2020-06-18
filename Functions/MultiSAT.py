@@ -3,7 +3,7 @@ from Functions.ProcessFile import process
 import pip
 
 
-def install(package):
+def install_packages(package):
     pip.main(['install', package])
 
 
@@ -11,19 +11,19 @@ try:
     from IPython.display import FileLink
 except ImportError:
     print('Ipython is not installed, installing it now!')
-    install('IPython')
+    install_packages('IPython')
 
 try:
     import csv
 except ImportError:
     print('csv is not installed, installing it now!')
-    install('csv')
+    install_packages('csv')
 
 try:
     import os
 except ImportError:
     print('os is not installed, installing it now!')
-    install('os')
+    install_packages('os')
 
 algs = ["Brute Force", "WALKSAT (LOCAL_SEARCH)", "DPLL", "Constraint_Programming (Ortools)", "CDCL (GLucose3)"]
 
@@ -55,6 +55,8 @@ def main(ifile, nameFile, algot):
 
     if ifile == 2:
         is_file, file = Parser.checkFile(nameFile)
+        if file is None:
+            return None, None, None
 
         if not is_file:
             times = 0
@@ -90,6 +92,8 @@ def main(ifile, nameFile, algot):
                 str_output.append([file, value, times])
     else:
         litDict, clauses = Parser.parserFormula(nameFile)
+        if litDict is None and clauses is None:
+            return None, None, None
         value, times, dictS = process(clauses, algot)
         str_output.append([nameFile, value, times])
         if dictS:

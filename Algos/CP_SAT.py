@@ -1,15 +1,15 @@
 import pip
 
 
-def install(package):
+def install_packages(package):
     pip.main(['install', package])
 
 
 try:
     from ortools.sat.python import cp_model
 except ImportError:
-    print('usertools is not installed, installing it now!')
-    install('ortools')
+    print('ortools is not installed, installing it now!')
+    install_packages('ortools')
 
 
 class ConstProg:
